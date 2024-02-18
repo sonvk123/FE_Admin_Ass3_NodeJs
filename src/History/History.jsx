@@ -7,12 +7,10 @@ import io from "socket.io-client";
 function History(props) {
   const { user } = useContext(AuthContext);
 
-
-
-  // KHI DELOY
-  let url = "https://ass3-nodejs-q5t8.onrender.com";
-  // KHI DEV
-  // let url = "http://localhost:5000";
+  let url =
+    process.env.REACT_APP_NODE_ENV === "production"
+      ? "https://beass3nodejs.onrender.com"
+      : "http://localhost:5000";
 
   const socket = io(url, { transports: ["websocket"] });
 
@@ -20,17 +18,16 @@ function History(props) {
 
   const [text, setText] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await HistoryAPI.getAll();
+  //     console.log("response:", response);
+  //     setHistory(response);
+  //   };
 
-      const response = await HistoryAPI.getAll();
-
-      setHistory(response);
-    };
-
-    user && fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   user && fetchData();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   //Hàm này dùng để nhận socket từ server gửi lên
   useEffect(() => {
@@ -42,7 +39,7 @@ function History(props) {
         window.location.reload();
       }, 4000);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

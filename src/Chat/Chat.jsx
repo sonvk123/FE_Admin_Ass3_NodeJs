@@ -49,7 +49,6 @@ function Chat(props) {
     if (isLogin) {
       const fetchData = async () => {
         const result = await ChatRoomsAPI.getAllRoom();
-
         setAllRoom(result.data);
       };
       fetchData();
@@ -88,18 +87,12 @@ function Chat(props) {
   }, [isLogin, load]);
 
   //Hàm này dùng để nhận socket từ server gửi lên
-  useEffect(() => {
-    if (isLogin) {
-      //Nhận dữ liệu từ server gửi lên thông qua socket với key receive_message
-      socket.on("receive_message", (data) => {
-        console.log("receive_message");
-
-        //Sau đó nó sẽ setLoad gọi lại hàm useEffect lấy lại dữ liệu
-        setLoad(true);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLogin]);
+  isLogin &&
+    socket.on("receive_message", (data) => {
+      console.log("nhận tin từ admin");
+      console.log("data:", data);
+      setLoad(true);
+    });
 
   // Hàm này dùng để gửi tin nhắn cho khách hàng
   const handlerSend = () => {
@@ -123,6 +116,8 @@ function Chat(props) {
       setLoad(true);
     }, 200);
   };
+
+  // khi chuyển client
   const handleRoomChange = (roomId) => {
     setRoomId(roomId);
   };
@@ -160,7 +155,8 @@ function Chat(props) {
                     <ul className="mailbox list-style-none">
                       <li>
                         <div className="message-center">
-                          {allRoom &&
+                          {isLogin &&
+                            allRoom &&
                             allRoom.map((value) => (
                               <button
                                 key={value._id}
