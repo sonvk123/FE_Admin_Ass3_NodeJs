@@ -3,7 +3,7 @@ import queryString from "query-string";
 
 let url =
   process.env.REACT_APP_NODE_ENV === "production"
-    ? "https://beass3nodejs.onrender.com/admin"
+    ? `${process.env.REACT_APP_URL_BE}/admin`
     : "http://localhost:5000/admin";
 
 const axiosClient = axios.create({
@@ -32,7 +32,6 @@ axiosClient.interceptors.response.use(
     // Xử lý lỗi
 
     if (error.response) {
-
       // Trả về đối tượng chứa thông tin lỗi
       return {
         error: true,

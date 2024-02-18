@@ -8,7 +8,7 @@ import io from "socket.io-client";
 
 let url =
   process.env.REACT_APP_NODE_ENV === "production"
-    ? "https://beass3nodejs.onrender.com"
+    ? `${process.env.REACT_APP_URL_BE}`
     : "http://localhost:5000";
 
 function Chat(props) {
