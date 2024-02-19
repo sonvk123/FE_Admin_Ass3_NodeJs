@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserAPI from "../API/UserAPI";
 import { AuthContext } from "../Context/AuthContext";
 
@@ -15,6 +15,7 @@ function Menu(props) {
   };
 
   const clickLogout = async () => {
+    console.log("nhấn đăng xuất");
     const req = await UserAPI.getLogout();
     console.log(req);
     localStorage.removeItem("name_user_");
@@ -30,10 +31,10 @@ function Menu(props) {
         <nav className="sidebar-nav">
           <ul id="sidebarnav">
             <li className="sidebar-item">
-              <Link className="sidebar-link sidebar-link" href="/">
+              <a className="sidebar-link sidebar-link" href="/">
                 <i data-feather="home" className="feather-icon"></i>
                 <span className="hide-menu">Dashboard</span>
-              </Link>
+              </a>
             </li>
             <li className="list-divider"></li>
 
@@ -41,19 +42,19 @@ function Menu(props) {
               <span className="hide-menu">Components</span>
             </li>
             <li className="sidebar-item">
-              <Link className="sidebar-link sidebar-link" href="/new">
+              <a className="sidebar-link sidebar-link" href="/new">
                 <i data-feather="settings" className="feather-icon"></i>
                 <span className="hide-menu">New Product</span>
-              </Link>
+              </a>
             </li>
             <li className="sidebar-item">
-              <Link className="sidebar-link sidebar-link" href="/chat">
+              <a className="sidebar-link sidebar-link" href="/chat">
                 <i data-feather="message-square" className="feather-icon"></i>
                 <span className="hide-menu">Customer</span>
-              </Link>
+              </a>
             </li>
             <li className="sidebar-item">
-              <Link
+              <a
                 className={`sidebar-link has-arrow ${
                   isSubMenuVisible ? "active" : ""
                 }`}
@@ -63,21 +64,26 @@ function Menu(props) {
               >
                 <i data-feather="grid" className="feather-icon"></i>
                 <span className="hide-menu">Tables</span>
-              </Link>
+              </a>
               <ul
                 className={`collapse first-level base-level-line ${
                   isSubMenuVisible ? "show" : ""
                 }`}
               >
                 <li className="sidebar-item">
-                  <Link href="/users" className="sidebar-link">
+                  <a href="/users" className="sidebar-link">
                     <span className="hide-menu">Users</span>
-                  </Link>
+                  </a>
                 </li>
                 <li className="sidebar-item">
-                  <Link href="/products" className="sidebar-link">
+                  <a href="/products" className="sidebar-link">
                     <span className="hide-menu">Products</span>
-                  </Link>
+                  </a>
+                </li>
+                <li className="sidebar-item">
+                  <a href="/history" className="sidebar-link">
+                    <span className="hide-menu">History</span>
+                  </a>
                 </li>
               </ul>
             </li>
@@ -89,16 +95,16 @@ function Menu(props) {
 
             <li className="sidebar-item">
               {!isLogin ? (
-                <Link
+                <a
                   className="sidebar-link sidebar-link"
                   href="/login"
                   aria-expanded="false"
                 >
                   <i data-feather="lock" className="feather-icon"></i>
                   <span className="hide-menu">Login</span>
-                </Link>
+                </a>
               ) : (
-                <Link
+                <a
                   className="sidebar-link sidebar-link"
                   aria-expanded="false"
                   href="/login"
@@ -107,7 +113,7 @@ function Menu(props) {
                   <span className="hide-menu" onClick={clickLogout}>
                     Log Out
                   </span>
-                </Link>
+                </a>
               )}
             </li>
           </ul>
