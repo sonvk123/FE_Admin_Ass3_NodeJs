@@ -22,7 +22,7 @@ function Menu(props) {
     localStorage.removeItem("user");
     localStorage.setItem("isLogin", false);
     dispatch({ type: "LOGOUT" });
-    window.location.reload();
+    // window.location.reload();
     navigate("/login");
   };
   return (
