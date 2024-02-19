@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.6.2",
     "alertifyjs": "^1.13.1",
     "axios": "^0.21.1",
+    "dotenv": "^16.4.4",
     "jquery": "^3.7.1",
     "jQuery": "^1.7.4",
     "query-string": "^6.13.8",

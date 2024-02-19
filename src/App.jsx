@@ -34,7 +34,10 @@ function App() {
               <Route path="/chat" element={<Chat />} />
               <Route path="/users" element={<Users />} />
               <Route path="/products" element={<Products />} />
-              <Route path="/updateProduct/:productId" element={<UpdateProduct />} />
+              <Route
+                path="/updateProduct/:productId"
+                element={<UpdateProduct />}
+              />
               <Route path="/history" element={<History />} />
               <Route path="/login" element={<Login />} />
               <Route path="/new" element={<NewProduct />} />
