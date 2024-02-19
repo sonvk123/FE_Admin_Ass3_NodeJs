@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Chat from "./Chat/Chat";
 import Header from "./Header/Header";
-import History from "./History/History";
 import Home from "./Home/Home";
 import Menu from "./Menu/Menu";
 import Products from "./Products/Products";
@@ -10,7 +9,6 @@ import Users from "./Users/Users";
 import Login from "./Login/Login";
 import NewProduct from "./New/NewProduct";
 import { AuthContextProvider } from "./Context/AuthContext";
-
 
 function App() {
   return (
@@ -38,7 +36,6 @@ function App() {
                 path="/updateProduct/:productId"
                 element={<UpdateProduct />}
               />
-              <Route path="/history" element={<History />} />
               <Route path="/login" element={<Login />} />
               <Route path="/new" element={<NewProduct />} />
             </Routes>

@@ -15,7 +15,6 @@ function Menu(props) {
   };
 
   const clickLogout = async () => {
-    console.log("nhấn đăng xuất");
     const req = await UserAPI.getLogout();
     console.log(req);
     localStorage.removeItem("name_user_");
@@ -78,11 +77,6 @@ function Menu(props) {
                 <li className="sidebar-item">
                   <a href="/products" className="sidebar-link">
                     <span className="hide-menu">Products</span>
-                  </a>
-                </li>
-                <li className="sidebar-item">
-                  <a href="/history" className="sidebar-link">
-                    <span className="hide-menu">History</span>
                   </a>
                 </li>
               </ul>
