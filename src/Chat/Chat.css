@@ -12,3 +12,7 @@
 	background-color: inherit;
 	width: 100%;
 }
+
+.error-placeholder::placeholder {
+  color: red;
+}

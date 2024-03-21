@@ -23,8 +23,12 @@ function Chat(props) {
   const [message, setMessage] = useState([]);
   const [load, setLoad] = useState(false);
   const [textMessage, setTextMessage] = useState("");
+  const [isErrorTextMessage, isErrorTetTextMessage] = useState(false);
+  const [errorTextMessage, errorTetTextMessage] = useState("");
 
   const onChangeText = (e) => {
+    isErrorTetTextMessage(false);
+    errorTetTextMessage("");
     setTextMessage(e.target.value);
   };
 
@@ -86,10 +90,9 @@ function Chat(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLogin, load]);
 
-  //Hàm này dùng để nhận socket từ server gửi lên
+  //nhận socket từ server gửi lên
   isLogin &&
     socket.on("receive_message", (data) => {
-      console.log("nhận tin từ admin");
       console.log("data:", data);
       setLoad(true);
     });
@@ -97,6 +100,11 @@ function Chat(props) {
   // Hàm này dùng để gửi tin nhắn cho khách hàng
   const handlerSend = () => {
     if (!roomId) {
+      return;
+    }
+    if (!textMessage.trim()) {
+      isErrorTetTextMessage(true);
+      errorTetTextMessage("phần này không được để trống");
       return;
     }
     const data = {
@@ -238,8 +246,14 @@ function Chat(props) {
                         <div className="input-field mt-0 mb-0">
                           <input
                             id="textarea1"
-                            placeholder="Type and enter"
-                            className="form-control border-0"
+                            placeholder={
+                              isErrorTextMessage
+                                ? errorTextMessage
+                                : "Type and enter"
+                            }
+                            className={`form-control border-0 ${
+                              isErrorTextMessage ? "error-placeholder" : ""
+                            }`}
                             type="text"
                             onChange={onChangeText}
                             value={textMessage}
