@@ -14,14 +14,12 @@ const ProductAPI = {
   // lấy thông tin product để cập nhật product
   getDetail: (id) => {
     const url = `/products/product/${id}`;
-    console.log(url);
     return axiosClient.get(url);
   },
 
   // cập nhật một product
   putUpdateProduct: (data, isFormData = true) => {
     const url = `/products/updateProduct`;
-    console.log(data)
     return axiosClient.put(url, data, { isFormData });
   },
 

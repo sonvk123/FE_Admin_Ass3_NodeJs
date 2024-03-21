@@ -93,7 +93,6 @@ function Chat(props) {
   //nhận socket từ server gửi lên
   isLogin &&
     socket.on("receive_message", (data) => {
-      console.log("data:", data);
       setLoad(true);
     });
 

@@ -50,7 +50,6 @@ const Login = () => {
           const query = "?" + queryString.stringify(params);
 
           const response = await UserAPI.postSignIn(query);
-          console.log("response:", response);
 
           if (response.error) {
 

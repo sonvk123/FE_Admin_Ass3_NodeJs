@@ -8,7 +8,6 @@ const UpdateUser = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
-  console.log("userId:", userId);
 
   // set formData mặc định
   const [formData, setFormData] = useState({
@@ -39,7 +38,6 @@ const UpdateUser = () => {
     const fetchApi = async () => {
       const response = await UserAPI.getDetailData(userId);
       const user = await response.user;
-      console.log("user:", user);
 
       // set form data mặc định theo data lấy được từ api
       setFormData((prevState) => ({
@@ -98,7 +96,7 @@ const UpdateUser = () => {
 
     try {
       const response = await UserAPI.putUpdateUser(data);
-      console.log(response.message);
+
       setFormData({
         fullName: "",
         email: "",

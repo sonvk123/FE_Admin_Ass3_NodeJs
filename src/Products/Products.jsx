@@ -50,7 +50,7 @@ function Products(props) {
     if (confirmation) {
       try {
         const response = await ProductAPI.deleteProduct(productId);
-        console.log("response:", response);
+
         window.alert(response.message);
         window.location.reload();
       } catch (error) {

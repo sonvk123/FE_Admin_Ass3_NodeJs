@@ -42,7 +42,6 @@ const UpdateProduct = () => {
     const fetchApi = async () => {
       const response = await ProductAPI.getDetail(productId);
       const product = await response.product;
-      console.log("product:", product);
 
       // set form data mặc định theo data lấy được từ api
       setFormData((prevState) => ({
@@ -135,7 +134,7 @@ const UpdateProduct = () => {
 
     try {
       const response = await ProductAPI.putUpdateProduct(data);
-      console.log(response.message);
+
       setFormData({
         Name: "",
         Category: "",

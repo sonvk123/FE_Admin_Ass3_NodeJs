@@ -15,7 +15,7 @@ const HistoryDetail = () => {
   useEffect(() => {
     const resData = async () => {
       const res = await HistoryAPI.getDetail(historyId);
-      console.log("res:", res);
+
       setTotal(res.cart.total);
 
       setCart(res.cart.items);

@@ -28,7 +28,6 @@ const UserAPI = {
   // update user
   putUpdateUser: (data, isFormData = true) => {
     const url = `/users/putUpdateUser`;
-    console.log(data);
     return axiosClient.put(url, data, { isFormData });
   },
 
