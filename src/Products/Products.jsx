@@ -50,8 +50,9 @@ function Products(props) {
     if (confirmation) {
       try {
         const response = await ProductAPI.deleteProduct(productId);
+        console.log("response:", response);
         window.alert(response.message);
-        navigate(`/products`);
+        window.location.reload();
       } catch (error) {
         console.error(error);
       }
@@ -136,7 +137,7 @@ function Products(props) {
                     <tbody>
                       {products &&
                         products.map((value) => (
-                          <tr key={value._id}>
+                          <tr key={value._id} id={value._id}>
                             <td>{value._id}</td>
                             <td>{value.name}</td>
                             <td>{convertMoney(value.price)} VND</td>
@@ -170,9 +171,9 @@ function Products(props) {
                                   color: "white",
                                 }}
                                 className="btn btn-danger"
-                                onClick={() =>
-                                  deleteProduct(value._id, value.name)
-                                }
+                                onClick={() => {
+                                  deleteProduct(value._id, value.name);
+                                }}
                               >
                                 Delete
                               </button>

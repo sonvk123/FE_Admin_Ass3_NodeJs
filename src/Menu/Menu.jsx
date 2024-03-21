@@ -15,16 +15,14 @@ function Menu(props) {
   };
 
   const clickLogout = async () => {
-    console.log("nhấn đăng xuất");
-    const req = await UserAPI.getLogout();
-    console.log(req);
+    await UserAPI.getLogout();
     localStorage.removeItem("name_user_");
     localStorage.removeItem("user");
     localStorage.setItem("isLogin", false);
     dispatch({ type: "LOGOUT" });
-    // window.location.reload();
     navigate("/login");
   };
+
   return (
     <aside className="left-sidebar" data-sidebarbg="skin6">
       <div className="scroll-sidebar" data-sidebarbg="skin6">
@@ -78,11 +76,6 @@ function Menu(props) {
                 <li className="sidebar-item">
                   <a href="/products" className="sidebar-link">
                     <span className="hide-menu">Products</span>
-                  </a>
-                </li>
-                <li className="sidebar-item">
-                  <a href="/history" className="sidebar-link">
-                    <span className="hide-menu">History</span>
                   </a>
                 </li>
               </ul>

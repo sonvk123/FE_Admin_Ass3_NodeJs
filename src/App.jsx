@@ -2,10 +2,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Chat from "./Chat/Chat";
 import Header from "./Header/Header";
 import Home from "./Home/Home";
+import HistoryDetail from "./Home/HistoryDetail";
 import Menu from "./Menu/Menu";
 import Products from "./Products/Products";
 import UpdateProduct from "./Products/updateProduct/updateProduct";
 import Users from "./Users/Users";
+import UpdateUser from "./Users/updateUser/updateUser";
 import Login from "./Login/Login";
 import NewProduct from "./New/NewProduct";
 import { AuthContextProvider } from "./Context/AuthContext";
@@ -29,8 +31,10 @@ function App() {
             <Menu />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/history/:historyId" element={<HistoryDetail />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/updateUser/:userId" element={<UpdateUser />} />
               <Route path="/products" element={<Products />} />
               <Route
                 path="/updateProduct/:productId"

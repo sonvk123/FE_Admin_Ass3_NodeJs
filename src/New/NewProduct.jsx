@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 
 import ProductAPI from "../API/ProductAPI";
 
@@ -7,7 +7,7 @@ import styles from "./NewProduct.module.css";
 const NewProduct = () => {
   const [formData, setFormData] = useState({
     Name: "",
-    Category: "",
+    Category: "iphone",
     Price: 0,
     ShortDes: "",
     LongDes: "",
@@ -41,11 +41,11 @@ const NewProduct = () => {
     }));
     setErrors((prevState) => ({
       ...prevState,
-      [name]: "",
+      [name]: value.trim() ? "" : "Phần này không được để trống",
     }));
     setIsErrors((prevState) => ({
       ...prevState,
-      [name]: false,
+      [name]: !value.trim(),
     }));
   };
 
@@ -54,17 +54,17 @@ const NewProduct = () => {
     setFormData({ ...formData, Images: files });
     setErrors((prevState) => ({
       ...prevState,
-      Images: "",
+      Images: files.length === 4 ? "" : "Vui lòng chọn chính xác 4 ảnh.",
     }));
     setIsErrors((prevState) => ({
       ...prevState,
-      Images: false,
+      Images: files.length !== 4,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    let test = true;
     Object.keys(formData).forEach((key) => {
       if (key !== "Images" && key !== "Price" && key !== "Quantity") {
         if (formData[key].trim() === "") {
@@ -77,6 +77,9 @@ const NewProduct = () => {
             [key]: "Phần này không được để trống",
           }));
         }
+        test = false;
+      } else {
+        test = true;
       }
     });
 
@@ -90,6 +93,9 @@ const NewProduct = () => {
         ...prevState,
         Price: "Vui lòng nhập giá tiền.",
       }));
+      test = false;
+    } else {
+      test = true;
     }
 
     if (formData.Quantity <= 0) {
@@ -101,6 +107,9 @@ const NewProduct = () => {
         ...prevState,
         Quantity: "Vui lòng nhập số lượng sản phẩm.",
       }));
+      test = false;
+    } else {
+      test = true;
     }
 
     // Kiểm tra số lượng ảnh
@@ -113,7 +122,11 @@ const NewProduct = () => {
         ...prevState,
         Images: "Vui lòng chọn chính xác 4 ảnh.",
       }));
+      test = false;
+    } else {
+      test = true;
     }
+
     // Tiếp tục xử lý khi mọi thứ đều hợp lệ
     const data = new FormData();
     data.append("Name", formData.Name);
@@ -128,19 +141,23 @@ const NewProduct = () => {
     });
 
     try {
-      const response = await ProductAPI.postAddProduct(data);
-      console.log(response.message);
+      if (!test) {
+        return;
+      }
+      await ProductAPI.postAddProduct(data);
       setFormData({
         Name: "",
-        Category: "",
+        Category: "iphone",
         Price: 0,
         ShortDes: "",
         LongDes: "",
         Images: [],
         Quantity: 0,
       });
-      document.getElementById("NewProduct").reset();
+      // đặt from về mặc định
+      // document.getElementById("NewProduct").reset();
       window.alert("Đã thêm sản phẩm mới thành công");
+      window.location.reload();
     } catch (error) {
       console.error("Error uploading product", error);
     }
@@ -169,13 +186,19 @@ const NewProduct = () => {
             </div>
             <div className="form-group">
               <label>Category</label>
-              <input
+              <select
                 name="Category"
                 onChange={handleInputChange}
-                type="text"
                 className="form-control"
-                placeholder="Enter Category"
-              />
+              >
+                <option value="iphone">iphone</option>
+                <option value="ipad">ipad</option>
+                <option value="macbook">macbook</option>
+                <option value="airpod">airpod</option>
+                <option value="watch">watch</option>
+                <option value="mouse">mouse</option>
+                <option value="keyboard">keyboard</option>
+              </select>
               {isErrors.Category && (
                 <span style={{ color: "red" }}>{errors.Category}</span>
               )}

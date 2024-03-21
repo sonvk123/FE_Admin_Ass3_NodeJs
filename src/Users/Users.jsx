@@ -31,8 +31,6 @@ function Users(props) {
   //Hàm này dùng để thay đổi state pagination.page
   //Nó sẽ truyền xuống Component con và nhận dữ liệu từ Component con truyền lên
   const handlerChangePage = (value) => {
-
-
     //Sau đó set lại cái pagination để gọi chạy làm useEffect gọi lại API pagination
     setPagination({
       page: value,
@@ -42,7 +40,7 @@ function Users(props) {
   };
 
   const updateUser = async (userId) => {
-    navigate(`/updateProduct/${userId}`);
+    navigate(`/updateUser/${userId}`);
   };
   const deleteUser = async (userId, name) => {
     const confirmation = window.confirm(
@@ -54,7 +52,7 @@ function Users(props) {
         const response = await UserAPI.deleteUser(userId);
 
         window.alert(response.message);
-        navigate(`/products`);
+        window.location.reload();
       } catch (error) {
         console.error(error);
       }

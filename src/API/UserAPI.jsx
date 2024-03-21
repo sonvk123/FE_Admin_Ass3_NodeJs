@@ -26,9 +26,10 @@ const UserAPI = {
   },
 
   // update user
-  putUpdateUser: (query) => {
-    const url = `/users/putUpdateUser/${query}`;
-    return axiosClient.put(url);
+  putUpdateUser: (data, isFormData = true) => {
+    const url = `/users/putUpdateUser`;
+    console.log(data);
+    return axiosClient.put(url, data, { isFormData });
   },
 
   // xóa user

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import HistoryAPI from "../API/HistoryAPI";
 import { Link } from "react-router-dom";
 import Pagination from "./Component/Pagination";
@@ -7,17 +8,15 @@ import convertMoney from "../convertMoney";
 
 import { AuthContext } from "../Context/AuthContext";
 
-Home.propTypes = {};
-
-function Home(props) {
+function Home() {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
-
-
   const [historys, sethistorys] = useState([]);
-  const [client, setClient] = useState([]);
-  const [total_revenue, setTotal_revenue] = useState([]);
-  const [transaction_number, setTransaction_number] = useState([]);
+  const [client, setClient] = useState("");
+  const [total_revenue, setTotal_revenue] = useState("");
+  const [averageMonthlyRevenue, setAverageMonthlyRevenue] = useState("");
+  const [transaction_number, setTransaction_number] = useState("");
 
   const [pagination, setPagination] = useState({
     page: "1",
@@ -30,8 +29,6 @@ function Home(props) {
   //Hàm này dùng để thay đổi state pagination.page
   //Nó sẽ truyền xuống Component con và nhận dữ liệu từ Component con truyền lên
   const handlerChangePage = (value) => {
-
-
     //Sau đó set lại cái pagination để gọi chạy làm useEffect gọi lại API pagination
     setPagination({
       page: value,
@@ -59,12 +56,18 @@ function Home(props) {
       setTotalPage(response.totalPages);
       setTotal_revenue(response.total_revenue);
       setTransaction_number(response.transaction_number);
+      setAverageMonthlyRevenue(response.averageMonthlyRevenue);
       sethistorys(response.historys);
     };
 
     user && fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
+
+  const clickView = (historyId) => {
+    navigate(`history/${historyId}`);
+  };
+
   return (
     <div className="page-wrapper">
       <div className="page-breadcrumb">
@@ -123,38 +126,6 @@ function Home(props) {
             <div className="card-body">
               <div className="d-flex d-lg-flex d-md-block align-items-center">
                 <div>
-                  <h2 className="text-dark mb-1 w-100 text-truncate font-weight-medium">
-                    {convertMoney(total_revenue)}
-                    <sup className="set-doller"> VND</sup>
-                  </h2>
-                  <h6 className="text-muted font-weight-normal mb-0 w-100 text-truncate">
-                    Earnings of Month
-                  </h6>
-                </div>
-                <div className="ml-auto mt-md-3 mt-lg-0">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="feather feather-dollar-sign"
-                  >
-                    <line x1="12" y1="1" x2="12" y2="23"></line>
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card border-right">
-            <div className="card-body">
-              <div className="d-flex d-lg-flex d-md-block align-items-center">
-                <div>
                   <div className="d-inline-flex align-items-center">
                     <h2 className="text-dark mb-1 font-weight-medium">
                       {transaction_number}
@@ -186,13 +157,50 @@ function Home(props) {
               </div>
             </div>
           </div>
+          <div className="card border-right">
+            <div className="card-body">
+              <div className="d-flex d-lg-flex d-md-block align-items-center">
+                <div>
+                  <h2 className="text-dark mb-1 w-100 text-truncate font-weight-medium">
+                    {total_revenue ? convertMoney(total_revenue) : 0}
+                    <sup className="set-doller"> VND</sup>
+                  </h2>
+                  <h6 className="text-muted font-weight-normal mb-0 w-100 text-truncate">
+                    total revenue
+                  </h6>
+                </div>
+                <div className="ml-auto mt-md-3 mt-lg-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-dollar-sign"
+                  >
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="card">
             <div className="card-body">
               <div className="d-flex d-lg-flex d-md-block align-items-center">
                 <div>
-                  <h2 className="text-dark mb-1 font-weight-medium">10</h2>
+                  <h2 className="text-dark mb-1 font-weight-medium">
+                    {averageMonthlyRevenue
+                      ? convertMoney(averageMonthlyRevenue)
+                      : 0}
+                    <sup className="set-doller"> VND</sup>
+                  </h2>
                   <h6 className="text-muted font-weight-normal mb-0 w-100 text-truncate">
-                    Projects
+                    average monthly revenue
                   </h6>
                 </div>
                 <div className="ml-auto mt-md-3 mt-lg-0">
@@ -263,6 +271,7 @@ function Home(props) {
                                   color: "white",
                                 }}
                                 className="btn btn-success"
+                                onClick={() => clickView(value._id)}
                               >
                                 View
                               </button>
