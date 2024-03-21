@@ -95,7 +95,7 @@ const UpdateUser = () => {
     data.append("phone", formData.phone);
 
     try {
-      const response = await UserAPI.putUpdateUser(data);
+      await UserAPI.putUpdateUser(data);
 
       setFormData({
         fullName: "",

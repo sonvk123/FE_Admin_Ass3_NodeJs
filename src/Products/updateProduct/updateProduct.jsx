@@ -133,7 +133,7 @@ const UpdateProduct = () => {
     data.append("Quantity", formData.Quantity);
 
     try {
-      const response = await ProductAPI.putUpdateProduct(data);
+      await ProductAPI.putUpdateProduct(data);
 
       setFormData({
         Name: "",
