@@ -34,6 +34,7 @@ const HistoryDetail = () => {
         <p>Phone: {information.phone}</p>
         <p>Address: {information.address}</p>
         <p>Total: {total} VND</p>
+        <p>Time: {information.formattedCreatedAt}</p>
       </div>
 
       <div className="table-responsive pt-5 pb-5">

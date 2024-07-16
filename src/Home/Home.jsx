@@ -23,6 +23,8 @@ function Home() {
     count: "8",
   });
 
+  const [sortValue, setSortValue] = useState("newToOld");
+
   //Tổng số trang
   const [totalPage, setTotalPage] = useState();
 
@@ -37,33 +39,37 @@ function Home() {
     });
   };
   // const viewHistory = async (productId) => {};
-  //Gọi hàm Pagination
-  useEffect(() => {
-    const fetchData = async () => {
-      const params = {
-        page: pagination.page,
-        count: pagination.count,
-        search: pagination.search,
-      };
-
-      const query = queryString.stringify(params);
-
-      const newQuery = "?" + query;
-
-      const response = await HistoryAPI.getAll(newQuery);
-
-      setClient(response.client);
-      setTotalPage(response.totalPages);
-      setTotal_revenue(response.total_revenue);
-      setTransaction_number(response.transaction_number);
-      setAverageMonthlyRevenue(response.averageMonthlyRevenue);
-      sethistorys(response.historys);
+  const fetchData = async () => {
+    const params = {
+      page: pagination.page,
+      count: pagination.count,
+      search: pagination.search,
+      sort: sortValue,
     };
 
+    const query = queryString.stringify(params);
+
+    const newQuery = "?" + query;
+
+    const response = await HistoryAPI.getAll(newQuery);
+
+    setClient(response.client);
+    setTotalPage(response.totalPages);
+    setTotal_revenue(response.total_revenue);
+    setTransaction_number(response.transaction_number);
+    setAverageMonthlyRevenue(response.averageMonthlyRevenue);
+    sethistorys(response.historys);
+  };
+  //Gọi hàm Pagination
+  useEffect(() => {
     user && fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination]);
+  }, [pagination, sortValue]);
 
+  const onChangeValue = (e) => {
+    const keyword = e.target.value;
+    setSortValue(keyword);
+  };
   const clickView = (historyId) => {
     navigate(`history/${historyId}`);
   };
@@ -229,19 +235,31 @@ function Home() {
           <div className="col-12">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">History</h4>
+                <div className="card-title">
+                  <h4 className="title">History</h4>
+                  <div className="sort">
+                    <select
+                      className="selectpicker ml-auto"
+                      onChange={onChangeValue}
+                    >
+                      <option value="newToOld">Default sorting</option>
+                      <option value="newToOld">Time: new to old</option>
+                      <option value="oldToNew">Time: old to new</option>
+                    </select>
+                  </div>
+                </div>
                 <br />
                 <div className="table-responsive">
                   <table className="table table-striped table-bordered no-wrap">
                     <thead>
                       <tr>
-                        <th>ID User</th>
                         <th>Name</th>
                         <th>Phone</th>
                         <th>Address</th>
                         <th>Total</th>
                         <th>Delivery</th>
                         <th>Status</th>
+                        <th>Time</th>
                         <th>Detail</th>
                       </tr>
                     </thead>
@@ -249,7 +267,6 @@ function Home() {
                       {historys &&
                         historys.map((value) => (
                           <tr key={value._id}>
-                            <td>{value.idUser}</td>
                             <td>{value.fullname}</td>
                             <td>{value.phone}</td>
                             <td>{value.address}</td>
@@ -264,6 +281,7 @@ function Home() {
                                 ? "Đã Thanh Toán"
                                 : "Chưa Thanh Toán"}
                             </td>
+                            <td>{value.formattedCreatedAt}</td>
                             <td>
                               <button
                                 style={{

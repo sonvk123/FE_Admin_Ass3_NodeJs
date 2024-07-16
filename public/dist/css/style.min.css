@@ -15080,6 +15080,8 @@ ul.list-style-none li a:hover {
   font-weight: 500;
   margin-bottom: 10px;
   color: #212529;
+  display: flex;
+  justify-content: space-between;
 }
 .custom-select {
   background: url(../../assets/images/custom-select.png) right 1.1rem center
